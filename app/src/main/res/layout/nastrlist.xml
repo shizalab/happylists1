@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+ 	android:layout_width="fill_parent"
+ 	android:layout_height="fill_parent"
+ 	android:orientation="horizontal">
+ 
+    
+  	<TextView
+ 		android:id="@+id/tvNT"
+ 		android:paddingLeft="20dp"
+ 		android:layout_width="150dp"
+ 		android:layout_height="wrap_content"
+ 		android:textSize="20sp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+ 		android:textStyle="italic"
+ 		android:focusable="false"
+ 		android:layout_weight="95">
+	</TextView>
+
+    <CheckBox
+	    android:id="@+id/chbnas"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="5"
+	    android:focusable="false"
+        android:layout_gravity="center_vertical">
+	</CheckBox>
+  	
+		
+	<!--
+	так вот ты какой комментарий )))
+	  -->
+		
+</LinearLayout>

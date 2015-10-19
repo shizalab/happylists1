@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+	<LinearLayout
+ 	android:layout_width="match_parent"
+ 	android:layout_height="wrap_content"
+ 	android:orientation="horizontal">
+    
+		<TextView
+		    android:id="@+id/tvBEN"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="15sp"
+			android:layout_marginRight="15sp"
+		    android:layout_weight="1"
+		    android:text="какой-то текст"
+		    android:gravity="center"
+		    android:textSize="15sp">
+		</TextView>
+		
+	</LinearLayout>
+    
+	<LinearLayout
+ 	android:layout_width="match_parent"
+ 	android:layout_height="wrap_content"
+ 	android:orientation="horizontal">
+
+		<EditText
+		    android:id="@+id/etBEN"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="15sp"
+			android:layout_marginRight="15sp"
+		    android:layout_weight="1"
+		    android:hint="@string/spBPE">
+		</EditText>
+		
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:layout_gravity="center">
+		
+		<Button
+ 			android:id="@+id/btnAbe"
+ 			android:layout_width="wrap_content"
+ 			android:layout_height="40sp"
+ 			android:textSize="15sp"
+ 			android:text="@string/btnAbk">
+		</Button>
+		<Button
+ 			android:id="@+id/btnDbe"
+ 			android:layout_width="wrap_content"
+ 			android:layout_height="40sp"
+ 			android:layout_marginLeft="10sp"
+ 			android:textSize="15sp"
+ 			android:text="@string/btnDbk">
+		</Button>
+		
+	</LinearLayout>
+
+	<ListView
+	 		android:id="@+id/lvBE"
+ 			android:layout_width="match_parent"
+ 			android:layout_height="wrap_content"
+ 			android:layout_weight="1">
+	</ListView>
+
+</LinearLayout>

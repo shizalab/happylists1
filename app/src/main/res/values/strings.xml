@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">HappyLists</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    
+ 	<string name="tspiski">Списки</string>
+    <string name="tpokupki">Что купить</string>
+    <string name="tsetting">Настройки</string>
+        
+    <!-- Fonts -->
+    <string name="helveticaNeueLight">fonts/HelveticaNeueLight.ttf</string>
+    <string name="robotoMedium">fonts/RobotoMedium.ttf</string>
+    <string name="robotoLightItalic">fonts/RobotoLightItalic.ttf</string>
+     <!-- Fonts -->
+    
+    <string name="Add">+</string>
+    <string name="etCount">кол-во</string>
+    <string name="acPE">ед-ца</string>
+    <string name="etPrice">цена</string>
+    <string name="chbvagno">важно</string>
+    
+	<string name="btSS">+ Новый список</string>
+	
+	<string name="delete_record">Удалить запись</string>
+	<string name="update_record">Открыть список</string>
+	
+	<string name="add_prod">введите продукт</string>
+	
+	<string name="Del">Удалить</string>
+	<string name="Sav">Сохранить</string>
+
+	<string name="acBK">введите категорию</string>
+	<string name="btnAbk">Сохранить</string>
+	<string name="btnDbk">Удалить</string>
+	
+	<string name="delete">Удалить</string>
+	<string name="del_data">Вы уверены, что хотите удалить данную категорию?</string>
+	<string name="del_prod">Вы уверены, что хотите удалить данную продукцию?</string>
+	<string name="del_edin">Вы уверены, что хотите удалить данную единицу?</string>
+	<string name="yes">Да</string>
+	<string name="cancel">Отмена</string>
+	
+	<string name="etBPN">введите продукцию</string>
+	<string name="spBPK">введите категорию</string>
+	<string name="spBPE">введите единицу</string>
+	<string name="btnAbp">Сохранить</string>
+	<string name="btnDbp">Удалить</string>
+	
+	<string name="cursor">Валюта:</string>
+	<string name="ok">ok</string>
+	
+	<string name="about">О приложении</string>
+	<string name="proger">Разработчик: Lukyanova Svetlana</string>
+	<string name="dizain">Дизайнер: Lukyanov Andrew</string>
+	<string name="ver">Версия: 1.0.0</string>
+	<string name="text">Спасибо, друзья, за выбор этой программы! :)</string>
+	    			
+</resources>
