@@ -194,7 +194,6 @@ $RECYCLE.BIN/
 *.egg
 *.egg-info
 dist/
-build/
 eggs/
 parts/
 var/
@@ -214,15 +213,6 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
-.idea
-.gradle
-app\build
-gradlew
-gradlew.bat
-HappyLists.iml
-app/build.gradle
-build.gradle
-settings.gradle
-import-summary.txt
-oldhappylists.iml
-gradle
+*
+!/app/libs/
+!/app/src/
