@@ -520,8 +520,9 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		super.onResume();
 		pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
 		Init();
-		if (pageNumber==2)	{
-			getActivity().getSupportLoaderManager().getLoader(1).forceLoad();
+		if (pageNumber==2)      {
+			lvData = (ListView) getActivity().findViewById(R.id.lvData);
+			CreateSPList();
 			GetNastr(sn);
 		}
 	}
