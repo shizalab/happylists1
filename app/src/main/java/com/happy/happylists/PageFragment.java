@@ -123,16 +123,16 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
-		//открываем базу
+		//РѕС‚РєСЂС‹РІР°РµРј Р±Р°Р·Сѓ
 		db = new DB(getActivity());
 		db.open();
-		// задаем шрифты
+		// Р·Р°РґР°РµРј С€СЂРёС„С‚С‹
 		faceHN = Typeface.createFromAsset(getActivity().getAssets(), getActivity().getResources().getString(R.string.helveticaNeueLight));
 		faceRM = Typeface.createFromAsset(getActivity().getAssets(), getActivity().getResources().getString(R.string.robotoMedium));
 		faceRLI = Typeface.createFromAsset(getActivity().getAssets(),getActivity().getResources().getString(R.string.robotoLightItalic));
 	}
 
-	//создаем контекстное меню
+	//СЃРѕР·РґР°РµРј РєРѕРЅС‚РµРєСЃС‚РЅРѕРµ РјРµРЅСЋ
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
 									ContextMenuInfo menuInfo) {
@@ -142,7 +142,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		menu.add(0, CM_DELETE_ID, 0, R.string.delete_record);
 	}
 
-	//процедура обработки нажатия меню
+	//РїСЂРѕС†РµРґСѓСЂР° РѕР±СЂР°Р±РѕС‚РєРё РЅР°Р¶Р°С‚РёСЏ РјРµРЅСЋ
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) item
 				.getMenuInfo();
@@ -162,7 +162,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		return true;
 	}
 
-	//создание страниц 
+	//СЃРѕР·РґР°РЅРёРµ СЃС‚СЂР°РЅРёС† 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
@@ -170,23 +170,23 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		View view;
 
 		if(pageNumber == 0) {
-			/* работа в первой странице*/
+			/* СЂР°Р±РѕС‚Р° РІ РїРµСЂРІРѕР№ СЃС‚СЂР°РЅРёС†Рµ*/
 
 			view = inflater.inflate(R.layout.sspisok, null);
 			lvSS = (ListView) view.findViewById(R.id.lvSS);
 			CreateListSpisok();
 
-			//присвоение и обработка кнопки "Создать новый список"
+			//РїСЂРёСЃРІРѕРµРЅРёРµ Рё РѕР±СЂР°Р±РѕС‚РєР° РєРЅРѕРїРєРё "РЎРѕР·РґР°С‚СЊ РЅРѕРІС‹Р№ СЃРїРёСЃРѕРє"
 			Button btSS = (Button) view.findViewById(R.id.btSS);
 			btSS.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					addNewSpisok();
-					//обновили список
+					//РѕР±РЅРѕРІРёР»Рё СЃРїРёСЃРѕРє
 					getActivity().getSupportLoaderManager().getLoader(0).forceLoad();
 					spisCursor.moveToLast();
-					//процедура программного нажатия на строку списка
-					int activePosition =lvSS.getCount(); // последний элемент списка
+					//РїСЂРѕС†РµРґСѓСЂР° РїСЂРѕРіСЂР°РјРјРЅРѕРіРѕ РЅР°Р¶Р°С‚РёСЏ РЅР° СЃС‚СЂРѕРєСѓ СЃРїРёСЃРєР°
+					int activePosition =lvSS.getCount(); // РїРѕСЃР»РµРґРЅРёР№ СЌР»РµРјРµРЅС‚ СЃРїРёСЃРєР°
 					lvSS.performItemClick(
 							lvSS.getChildAt(activePosition),
 							activePosition,
@@ -194,7 +194,18 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				}
 			});
 
-			//процедура нажатия на строку в ListView
+			lvSS.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
+					if (pageNumber==0)	{
+						lvSS = (ListView) getActivity().findViewById(R.id.lvSS);
+						getActivity().getSupportLoaderManager().getLoader(0).forceLoad();
+					}
+					return false;
+				}
+			});
+			//РїСЂРѕС†РµРґСѓСЂР° РЅР°Р¶Р°С‚РёСЏ РЅР° СЃС‚СЂРѕРєСѓ РІ ListView
 			lvSS.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					if (id==0)
@@ -217,7 +228,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 
 		}
 		else if(pageNumber == 1){
-			 /* работа на второй странице*/
+			 /* СЂР°Р±РѕС‚Р° РЅР° РІС‚РѕСЂРѕР№ СЃС‚СЂР°РЅРёС†Рµ*/
 
 			itog=(float) 0;
 			prodid = 0;
@@ -251,7 +262,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				}
 			});
 
-			//процедура нажатия на EditText, изменение фокуса
+			//РїСЂРѕС†РµРґСѓСЂР° РЅР°Р¶Р°С‚РёСЏ РЅР° EditText, РёР·РјРµРЅРµРЅРёРµ С„РѕРєСѓСЃР°
 			etSName.setOnTouchListener(new View.OnTouchListener() {
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
@@ -263,7 +274,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				}
 			});
 
-			//процедура проверки sn при изменении фокуса
+			//РїСЂРѕС†РµРґСѓСЂР° РїСЂРѕРІРµСЂРєРё sn РїСЂРё РёР·РјРµРЅРµРЅРёРё С„РѕРєСѓСЃР°
 			etSName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 				@Override
 				public void onFocusChange(View v, boolean hasFocus) {
@@ -275,7 +286,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				}
 			});
 
-			//процедура изменения названия списка
+			//РїСЂРѕС†РµРґСѓСЂР° РёР·РјРµРЅРµРЅРёСЏ РЅР°Р·РІР°РЅРёСЏ СЃРїРёСЃРєР°
 			etSName.setOnKeyListener(new View.OnKeyListener() {
 				@Override
 				public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -284,7 +295,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 							(keyCode == KeyEvent.KEYCODE_TAB ||
 									keyCode == KeyEvent.KEYCODE_ENTER))
 					{
-						// сохраняем текст, введенный до нажатия Enter в переменную
+						// СЃРѕС…СЂР°РЅСЏРµРј С‚РµРєСЃС‚, РІРІРµРґРµРЅРЅС‹Р№ РґРѕ РЅР°Р¶Р°С‚РёСЏ Enter РІ РїРµСЂРµРјРµРЅРЅСѓСЋ
 						String strName = etSName.getText().toString();
 						db.UpDateNSp(DB_STABLE, strName ,sn);
 						getActivity().getSupportLoaderManager().getLoader(0).forceLoad();
@@ -296,14 +307,25 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				}
 			});
 
-			//процедура долгого нажатия на строку в ListView
+			lvData.setOnTouchListener(new View.OnTouchListener() {
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
+					if (pageNumber==1)	{
+						lvData = (ListView) getActivity().findViewById(R.id.lvData);
+						getActivity().getSupportLoaderManager().getLoader(1).forceLoad();
+					}
+					return false;
+				}
+			});
+			//РїСЂРѕС†РµРґСѓСЂР° РґРѕР»РіРѕРіРѕ РЅР°Р¶Р°С‚РёСЏ РЅР° СЃС‚СЂРѕРєСѓ РІ ListView
 			lvData.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 				@Override
 				public boolean onItemLongClick(AdapterView<?> parent,
 											   View view, final int position, long id) {
 					// TODO Auto-generated method stub
 					TextView textView1 = (TextView) view.findViewById(R.id.tvPN);
-					//проверяем, если продукт в корзине, то долгое нажатие не сработает пока не выкинем с корзины
+					//РїСЂРѕРІРµСЂСЏРµРј, РµСЃР»Рё РїСЂРѕРґСѓРєС‚ РІ РєРѕСЂР·РёРЅРµ, С‚Рѕ РґРѕР»РіРѕРµ РЅР°Р¶Р°С‚РёРµ РЅРµ СЃСЂР°Р±РѕС‚Р°РµС‚ РїРѕРєР° РЅРµ РІС‹РєРёРЅРµРј СЃ РєРѕСЂР·РёРЅС‹
 					if ((textView1.getPaintFlags() & Paint.STRIKE_THRU_TEXT_FLAG) == 0)
 					{
 						prodid = (int) id;
@@ -376,23 +398,23 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				}
 			});
 
-			//присвоение и обработка кнопки "Добавить продукт к списку"
+			//РїСЂРёСЃРІРѕРµРЅРёРµ Рё РѕР±СЂР°Р±РѕС‚РєР° РєРЅРѕРїРєРё "Р”РѕР±Р°РІРёС‚СЊ РїСЂРѕРґСѓРєС‚ Рє СЃРїРёСЃРєСѓ"
 			btnAdd = (Button) view.findViewById(R.id.btnAdd);
 			btnAdd.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					if (acPN.length() == 0)
-						Toast.makeText(getActivity(), "Введите продукт!", Toast.LENGTH_LONG).show();
+						Toast.makeText(getActivity(), "Р’РІРµРґРёС‚Рµ РїСЂРѕРґСѓРєС‚!", Toast.LENGTH_LONG).show();
 					else if (etCount.length() == 0)
-						Toast.makeText(getActivity(), "Введите количество продукта", Toast.LENGTH_LONG).show();
+						Toast.makeText(getActivity(), "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕРґСѓРєС‚Р°", Toast.LENGTH_LONG).show();
 					else if (acPE.length() == 0)
-						Toast.makeText(getActivity(), "Введите единицу продукта", Toast.LENGTH_LONG).show();
+						Toast.makeText(getActivity(), "Р’РІРµРґРёС‚Рµ РµРґРёРЅРёС†Сѓ РїСЂРѕРґСѓРєС‚Р°", Toast.LENGTH_LONG).show();
 					else if (etPrice.length() == 0)
-						Toast.makeText(getActivity(), "Введите цену продукта", Toast.LENGTH_LONG).show();
+						Toast.makeText(getActivity(), "Р’РІРµРґРёС‚Рµ С†РµРЅСѓ РїСЂРѕРґСѓРєС‚Р°", Toast.LENGTH_LONG).show();
 					else {
 						if ((Float.parseFloat(etCount.getText().toString()) <= 0) ||
 								(Float.parseFloat(etPrice.getText().toString()) <= 0) )
-							Toast.makeText(getActivity(), "Количество и цена должны быть больше нуля", Toast.LENGTH_LONG).show();
+							Toast.makeText(getActivity(), "РљРѕР»РёС‡РµСЃС‚РІРѕ Рё С†РµРЅР° РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ РЅСѓР»СЏ", Toast.LENGTH_LONG).show();
 						else
 						{
 							ControlSN();
@@ -408,7 +430,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				}
 			});
 
-			//присвоение и обработка кнопки "Удалить продукт с списка"
+			//РїСЂРёСЃРІРѕРµРЅРёРµ Рё РѕР±СЂР°Р±РѕС‚РєР° РєРЅРѕРїРєРё "РЈРґР°Р»РёС‚СЊ РїСЂРѕРґСѓРєС‚ СЃ СЃРїРёСЃРєР°"
 			btDel = (Button) view.findViewById(R.id.btDel);
 			btDel.setVisibility(View.GONE);
 			btDel.setOnClickListener(new View.OnClickListener() {
@@ -430,7 +452,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				}
 			});
 
-			//присвоение и обработка кнопки "Сохранить продукт в списке"
+			//РїСЂРёСЃРІРѕРµРЅРёРµ Рё РѕР±СЂР°Р±РѕС‚РєР° РєРЅРѕРїРєРё "РЎРѕС…СЂР°РЅРёС‚СЊ РїСЂРѕРґСѓРєС‚ РІ СЃРїРёСЃРєРµ"
 			btSave = (Button) view.findViewById(R.id.btSave);
 			btSave.setVisibility(View.GONE);
 			btSave.setOnClickListener(new View.OnClickListener() {
@@ -438,17 +460,17 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				public void onClick(View v) {
 
 					if (acPN.length() == 0)
-						Toast.makeText(getActivity(), "Введите продукт!", Toast.LENGTH_LONG).show();
+						Toast.makeText(getActivity(), "Р’РІРµРґРёС‚Рµ РїСЂРѕРґСѓРєС‚!", Toast.LENGTH_LONG).show();
 					else if (etCount.length() == 0)
-						Toast.makeText(getActivity(), "Введите количество продукта", Toast.LENGTH_LONG).show();
+						Toast.makeText(getActivity(), "Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕРґСѓРєС‚Р°", Toast.LENGTH_LONG).show();
 					else if (acPE.length() == 0)
-						Toast.makeText(getActivity(), "Введите единицу продукта", Toast.LENGTH_LONG).show();
+						Toast.makeText(getActivity(), "Р’РІРµРґРёС‚Рµ РµРґРёРЅРёС†Сѓ РїСЂРѕРґСѓРєС‚Р°", Toast.LENGTH_LONG).show();
 					else if (etPrice.length() == 0)
-						Toast.makeText(getActivity(), "Введите цену продукта", Toast.LENGTH_LONG).show();
+						Toast.makeText(getActivity(), "Р’РІРµРґРёС‚Рµ С†РµРЅСѓ РїСЂРѕРґСѓРєС‚Р°", Toast.LENGTH_LONG).show();
 					else {
 						if ((Float.parseFloat(etCount.getText().toString()) <= 0) ||
 								(Float.parseFloat(etPrice.getText().toString()) <= 0) )
-							Toast.makeText(getActivity(), "Количество и цена должны быть больше нуля", Toast.LENGTH_LONG).show();
+							Toast.makeText(getActivity(), "РљРѕР»РёС‡РµСЃС‚РІРѕ Рё С†РµРЅР° РґРѕР»Р¶РЅС‹ Р±С‹С‚СЊ Р±РѕР»СЊС€Рµ РЅСѓР»СЏ", Toast.LENGTH_LONG).show();
 						else
 						{
 							UpdateProdInSpisok(prodid);
@@ -469,7 +491,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 
 		}
 		else if(pageNumber == 2) {
-			/* работа на третьей странице*/
+			/* СЂР°Р±РѕС‚Р° РЅР° С‚СЂРµС‚СЊРµР№ СЃС‚СЂР°РЅРёС†Рµ*/
 
 			view = inflater.inflate(R.layout.nastroy, null);
 
@@ -479,9 +501,9 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 			expListAdapter  = new ElemAdapter(getActivity(),groupNames, elems );
 			expListAdapter.notifyDataSetChanged();
 			elvMain.setAdapter(expListAdapter);
-			lvData = (ListView) getActivity().findViewById(R.id.lvData);
-			CreateSPList();
-			// нажатие на элемент   
+			//lvData = (ListView) getActivity().findViewById(R.id.lvData);
+			//CreateSPList();
+			// РЅР°Р¶Р°С‚РёРµ РЅР° СЌР»РµРјРµРЅС‚   
 			elvMain.setOnChildClickListener(this);
 			elvMain.setOnGroupClickListener(this);
 
@@ -493,7 +515,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 
 	}
 
-	//матем.округление
+	//РјР°С‚РµРј.РѕРєСЂСѓРіР»РµРЅРёРµ
 	public static float round(float value, int scale) {
 		return (float) (Math.round(value * Math.pow(10, scale)) / Math.pow(10, scale));
 	}
@@ -515,13 +537,15 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
 	}
 
+	//esli viklju chalsja ekran
 	@Override
 	public void onResume() {
 		super.onResume();
 		pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
 		Init();
-		if (pageNumber==2)      {
+		if (pageNumber==1)	{
 			lvData = (ListView) getActivity().findViewById(R.id.lvData);
+			//getActivity().getSupportLoaderManager().getLoader(1).forceLoad();
 			CreateSPList();
 			GetNastr(sn);
 		}
@@ -564,7 +588,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
 	}
 
-	//процедура проверки sn
+	//РїСЂРѕС†РµРґСѓСЂР° РїСЂРѕРІРµСЂРєРё sn
 	public void ControlSN() {
 		String namespasok = etSName.getText().toString();
 		int sn_x=0;
@@ -582,7 +606,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		}
 	}
 
-	//процедура изменения фона для текста
+	//РїСЂРѕС†РµРґСѓСЂР° РёР·РјРµРЅРµРЅРёСЏ С„РѕРЅР° РґР»СЏ С‚РµРєСЃС‚Р°
 	public void ControlFonts() {
 		tvItog = (TextView) getActivity().findViewById(R.id.tvItog);
 		tvItogtxt = (TextView) getActivity().findViewById(R.id.tvItogtxt);
@@ -608,7 +632,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 			etPrice.setTypeface(faceRLI);
 	}
 
-	//процедура подсчета суммы
+	//РїСЂРѕС†РµРґСѓСЂР° РїРѕРґСЃС‡РµС‚Р° СЃСѓРјРјС‹
 	private void SumInKorz(long idsm) {
 		float sm=0;
 		itog = (float) 0;
@@ -628,7 +652,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		getActivity().getSupportLoaderManager().getLoader(1).forceLoad();
 	}
 
-	//процедура 
+	//РїСЂРѕС†РµРґСѓСЂР° 
 	public void Init() {
 		etSName= (EditText) getActivity().findViewById(R.id.etSName);
 		tvItog= (TextView) getActivity().findViewById(R.id.tvItog);
@@ -645,7 +669,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		}
 	}
 
-	// процедура добавления нового списка (первая страница)
+	// РїСЂРѕС†РµРґСѓСЂР° РґРѕР±Р°РІР»РµРЅРёСЏ РЅРѕРІРѕРіРѕ СЃРїРёСЃРєР° (РїРµСЂРІР°СЏ СЃС‚СЂР°РЅРёС†Р°)
 	private void addNewSpisok() {
 		itog=(float) 0;
 		spisCursor2 = db.getMaxSpisok(DB_STABLE);
@@ -658,8 +682,8 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		} while (spisCursor2.moveToNext());
 		spisCursor2.close();
 		max_nom = max_nom+1;
-		//добавили в базу новый список
-		db.addNewSpisok(DB_STABLE, max_nom ,"Список "+max_nom);
+		//РґРѕР±Р°РІРёР»Рё РІ Р±Р°Р·Сѓ РЅРѕРІС‹Р№ СЃРїРёСЃРѕРє
+		db.addNewSpisok(DB_STABLE, max_nom ,"РЎРїРёСЃРѕРє "+max_nom);
 		spisCursor2 = db.getNastrSN(max_nom);
 		if (spisCursor2.getCount()==0)
 			db.addNewNastr("nastr", max_nom );
@@ -675,7 +699,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		cursor.close();
 	}
 
-	//процедура сохранения цены для продукта
+	//РїСЂРѕС†РµРґСѓСЂР° СЃРѕС…СЂР°РЅРµРЅРёСЏ С†РµРЅС‹ РґР»СЏ РїСЂРѕРґСѓРєС‚Р°
 	private void savePriceProd(int p_id, float ip){
 		cursor = db.getProdPrice(p_id);
 		int id_CC = cursor.getCount();
@@ -686,9 +710,9 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		cursor.close();
 	}
 
-	//процедура добавления нового продукта в список (вторая страница)
+	//РїСЂРѕС†РµРґСѓСЂР° РґРѕР±Р°РІР»РµРЅРёСЏ РЅРѕРІРѕРіРѕ РїСЂРѕРґСѓРєС‚Р° РІ СЃРїРёСЃРѕРє (РІС‚РѕСЂР°СЏ СЃС‚СЂР°РЅРёС†Р°)
 	private void addProdInSpisok(){
-		//ищем данные для sn (номер, название, дата)
+		//РёС‰РµРј РґР°РЅРЅС‹Рµ РґР»СЏ sn (РЅРѕРјРµСЂ, РЅР°Р·РІР°РЅРёРµ, РґР°С‚Р°)
 		cursor = db.getSpisok(sn,1);
 		int csnom = 0;
 		String csname = "";
@@ -704,7 +728,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 			}
 		} while (cursor.moveToNext());
 		cursor.close();
-		//ищем id продукта по названию 
+		//РёС‰РµРј id РїСЂРѕРґСѓРєС‚Р° РїРѕ РЅР°Р·РІР°РЅРёСЋ 
 		int p_id=0;
 		cursor = db.getProdNM(acPN.getText().toString());
 		int id_C = cursor.getCount();
@@ -721,13 +745,13 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 			}
 		} while (cursor.moveToNext());
 		cursor.close();
-		//если проверяем с галочкой или без чекетбокс (важность)
+		//РµСЃР»Рё РїСЂРѕРІРµСЂСЏРµРј СЃ РіР°Р»РѕС‡РєРѕР№ РёР»Рё Р±РµР· С‡РµРєРµС‚Р±РѕРєСЃ (РІР°Р¶РЅРѕСЃС‚СЊ)
 		int chv = 0;
 		if (chbvagno.isChecked()==true)
 			chv=1;
 		else
 			chv=0;
-		//ищем id единицы по названию 
+		//РёС‰РµРј id РµРґРёРЅРёС†С‹ РїРѕ РЅР°Р·РІР°РЅРёСЋ 
 		int e_id=0;
 		cursor = db.getEdinName(DB_ETABLE,acPE.getText().toString());
 		int id_CE = cursor.getCount();
@@ -746,7 +770,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		cursor.close();
 		Float ik = Float.parseFloat(etCount.getText().toString().replace(',', '.'));
 		Float ip = Float.parseFloat(etPrice.getText().toString().replace(',', '.'));
-		//добавляем новый продукт в список
+		//РґРѕР±Р°РІР»СЏРµРј РЅРѕРІС‹Р№ РїСЂРѕРґСѓРєС‚ РІ СЃРїРёСЃРѕРє
 		db.addProdSpisok(DB_STABLE, csnom ,csname,csdate,p_id,ik,ip,chv,0,e_id,val_id);
 		getActivity().getSupportLoaderManager().getLoader(1).forceLoad();
 		savePriceProd(p_id,ip);
@@ -754,9 +778,9 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		ClView();
 	}
 
-	//процедура обновления продукта в списке (вторая страница)
+	//РїСЂРѕС†РµРґСѓСЂР° РѕР±РЅРѕРІР»РµРЅРёСЏ РїСЂРѕРґСѓРєС‚Р° РІ СЃРїРёСЃРєРµ (РІС‚РѕСЂР°СЏ СЃС‚СЂР°РЅРёС†Р°)
 	private void UpdateProdInSpisok(int txt){
-		//ищем id продукта по названию 
+		//РёС‰РµРј id РїСЂРѕРґСѓРєС‚Р° РїРѕ РЅР°Р·РІР°РЅРёСЋ 
 		int p_id=0;
 		cursor = db.getProdNM(acPN.getText().toString());
 		int id_C = cursor.getCount();
@@ -773,17 +797,17 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 			}
 		} while (cursor.moveToNext());
 		cursor.close();
-		//если проверяем с галочкой или без чекетбокс (важность)
+		//РµСЃР»Рё РїСЂРѕРІРµСЂСЏРµРј СЃ РіР°Р»РѕС‡РєРѕР№ РёР»Рё Р±РµР· С‡РµРєРµС‚Р±РѕРєСЃ (РІР°Р¶РЅРѕСЃС‚СЊ)
 		int chv = 0;
 		if (chbvagno.isChecked()==true)
 			chv=1;
 		else
 			chv=0;
-		//ищем id единицы по названию 
+		//РёС‰РµРј id РµРґРёРЅРёС†С‹ РїРѕ РЅР°Р·РІР°РЅРёСЋ 
 		int e_id=0;
 		cursor = db.getEdinName(DB_ETABLE,acPE.getText().toString());
-		int id_СЃE = cursor.getCount();
-		if (id_СЃE == 0) {
+		int id_РЎРѓE = cursor.getCount();
+		if (id_РЎРѓE == 0) {
 			db.addEdin(DB_ETABLE, acPE.getText().toString());
 			cursor.close();
 			cursor = db.getEdinName(DB_ETABLE,acPE.getText().toString());
@@ -798,7 +822,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		cursor.close();
 		Float ik = Float.parseFloat(etCount.getText().toString().replace(',', '.'));
 		Float ip = Float.parseFloat(etPrice.getText().toString().replace(',', '.'));
-		//добавляем новый продукт в список
+		//РґРѕР±Р°РІР»СЏРµРј РЅРѕРІС‹Р№ РїСЂРѕРґСѓРєС‚ РІ СЃРїРёСЃРѕРє
 		db.upProdSpisok(DB_STABLE, p_id,ik,ip,chv,e_id,txt);
 		getActivity().getSupportLoaderManager().getLoader(1).forceLoad();
 		savePriceProd(p_id,ip);
@@ -812,7 +836,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 			if (!spisCursor2.isNull(id_id)) {
 				sn= Integer.parseInt(spisCursor2.getString(id_id));
 			} else {
-				db.addNewSpisok(DB_STABLE, 1 ,"Список "+1);
+				db.addNewSpisok(DB_STABLE, 1 ,"РЎРїРёСЃРѕРє "+1);
 				cursor = db.getMaxSpisok(DB_STABLE);
 				int iid = cursor.getColumnIndex(S_ID);
 				cursor.moveToFirst();
@@ -827,7 +851,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		spisCursor2.close();
 	}
 
-	//процедура очиски полей для второй страницы
+	//РїСЂРѕС†РµРґСѓСЂР° РѕС‡РёСЃРєРё РїРѕР»РµР№ РґР»СЏ РІС‚РѕСЂРѕР№ СЃС‚СЂР°РЅРёС†С‹
 	private void ClView() {
 		if (acPN != null && !acPN.isPopupShowing())
 			this.acPN.setText("");
@@ -858,7 +882,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 			tvItog.setText(String.format("%.2f",itog));
 	}
 
-	//Данные списка listView (первая страница)
+	//Р”Р°РЅРЅС‹Рµ СЃРїРёСЃРєР° listView (РїРµСЂРІР°СЏ СЃС‚СЂР°РЅРёС†Р°)
 	private void CreateListSpisok() {
 		String[] from = new String[] { S_NAME, S_DATE };
 		int[] to = new int[] {R.id.tvSS , R.id.tvSSinf};
@@ -882,13 +906,13 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 			}
 		});
 		lvSS.setAdapter(scAdapter);
-		//присвоили контекстное меню для списка
+		//РїСЂРёСЃРІРѕРёР»Рё РєРѕРЅС‚РµРєСЃС‚РЅРѕРµ РјРµРЅСЋ РґР»СЏ СЃРїРёСЃРєР°
 		registerForContextMenu(lvSS);
-		// создаем лоадер для чтения данных
+		// СЃРѕР·РґР°РµРј Р»РѕР°РґРµСЂ РґР»СЏ С‡С‚РµРЅРёСЏ РґР°РЅРЅС‹С…
 		getActivity().getSupportLoaderManager().initLoader(0, null, this);
 	}
 
-	//Данные списка listView (вторая страница)
+	//Р”Р°РЅРЅС‹Рµ СЃРїРёСЃРєР° listView (РІС‚РѕСЂР°СЏ СЃС‚СЂР°РЅРёС†Р°)
 	public void CreateSPList () {
 		String[] from = new String[] {"kc", "skorz", "pname","ename", "skol", "abv", "sprice" };
 		int[] to = new int[] {R.id.ivP,R.id.ivKorz,R.id.tvPN,R.id.tvPE,R.id.tvPK,R.id.tvPV,R.id.tvPP};
@@ -1042,21 +1066,21 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 			}
 		});
 		lvData.setAdapter(spAdapter);
-		// создаем лоадер для чтения данных
+		// СЃРѕР·РґР°РµРј Р»РѕР°РґРµСЂ РґР»СЏ С‡С‚РµРЅРёСЏ РґР°РЅРЅС‹С…
 		getActivity().getSupportLoaderManager().initLoader(1, null, this);
 	}
 
-	//процедура автозаполнения продукта (вторая страница)
+	//РїСЂРѕС†РµРґСѓСЂР° Р°РІС‚РѕР·Р°РїРѕР»РЅРµРЅРёСЏ РїСЂРѕРґСѓРєС‚Р° (РІС‚РѕСЂР°СЏ СЃС‚СЂР°РЅРёС†Р°)
 	private void CreateListProducts() {
 		prodCursor = db.getProdName(DB_PTABLE,"");
 		String[] from = new String[] { P_NAME };
 		int[] to = new int[] {R.id.text1};
 
 		pcAdapter = new SimpleCursorAdapter(getActivity(),R.layout.item, prodCursor, from, to);
-		// указываем какое имя вставлять после выбора всплывающего списка.
-		//   Если этого не будет, то в название получите имя объекта в формате java
+		// СѓРєР°Р·С‹РІР°РµРј РєР°РєРѕРµ РёРјСЏ РІСЃС‚Р°РІР»СЏС‚СЊ РїРѕСЃР»Рµ РІС‹Р±РѕСЂР° РІСЃРїР»С‹РІР°СЋС‰РµРіРѕ СЃРїРёСЃРєР°.
+		//   Р•СЃР»Рё СЌС‚РѕРіРѕ РЅРµ Р±СѓРґРµС‚, С‚Рѕ РІ РЅР°Р·РІР°РЅРёРµ РїРѕР»СѓС‡РёС‚Рµ РёРјСЏ РѕР±СЉРµРєС‚Р° РІ С„РѕСЂРјР°С‚Рµ java
 		pcAdapter.setStringConversionColumn(prodCursor.getColumnIndexOrThrow(P_NAME));
-		//  настраиваем фильтрацию (что бы всплывали подсказки)
+		//  РЅР°СЃС‚СЂР°РёРІР°РµРј С„РёР»СЊС‚СЂР°С†РёСЋ (С‡С‚Рѕ Р±С‹ РІСЃРїР»С‹РІР°Р»Рё РїРѕРґСЃРєР°Р·РєРё)
 		pcAdapter.setFilterQueryProvider(new FilterQueryProvider() {
 			public Cursor runQuery(CharSequence constraint) {
 				String partialValue = null;
@@ -1069,7 +1093,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		acPN.setAdapter(pcAdapter);
 		pcAdapter.notifyDataSetChanged();
 		acPN.showDropDown();
-		// Событие возникающее при изменение вводимого текста
+		// РЎРѕР±С‹С‚РёРµ РІРѕР·РЅРёРєР°СЋС‰РµРµ РїСЂРё РёР·РјРµРЅРµРЅРёРµ РІРІРѕРґРёРјРѕРіРѕ С‚РµРєСЃС‚Р°
 		acPN.addTextChangedListener(new TextWatcher() {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				etCount.setVisibility(View.VISIBLE);
@@ -1077,7 +1101,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				chbvagno.setVisibility(View.VISIBLE);
 				acPE.setVisibility(View.VISIBLE);
 				etPrice.setText("1");
-				acPE.setText("шт.");
+				acPE.setText("С€С‚.");
 			}
 			public void beforeTextChanged(CharSequence s, int start, int count,
 										  int after) {
@@ -1088,11 +1112,11 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				pcAdapter.getFilter().filter(asUpperCaseFirstChar(s.toString()));
 			}
 		});
-		//процедура изменения фокуса
+		//РїСЂРѕС†РµРґСѓСЂР° РёР·РјРµРЅРµРЅРёСЏ С„РѕРєСѓСЃР°
 		acPN.setOnFocusChangeListener(new OnFocusChangeListener() {
 			public void onFocusChange(View v, boolean hasFocus) {
 				// TODO Auto-generated method stub
-				//проверка активна ли сумма
+				//РїСЂРѕРІРµСЂРєР° Р°РєС‚РёРІРЅР° Р»Рё СЃСѓРјРјР°
 				ControlSN();
 				spisCursor2 = db.getNastr(sn);
 				int prtxt = 0;
@@ -1110,7 +1134,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 					etPrice.setEnabled(true);
 			}
 		});
-		// Событие при выборе элемента
+		// РЎРѕР±С‹С‚РёРµ РїСЂРё РІС‹Р±РѕСЂРµ СЌР»РµРјРµРЅС‚Р°
 		acPN.setOnItemClickListener(new OnItemClickListener(){
 			public void onItemClick(AdapterView<?> adapter, View view, int index, long id) {
 				CreateListEdin();
@@ -1127,7 +1151,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				spisCursor2.close();
 				acPE.setText(txt);
 
-				//подстановка сохраненной цены
+				//РїРѕРґСЃС‚Р°РЅРѕРІРєР° СЃРѕС…СЂР°РЅРµРЅРЅРѕР№ С†РµРЅС‹
 				spisCursor2 = db.getProdPrice(id);
 				int id_C = spisCursor2.getCount();
 				float pri  = (float) 0;
@@ -1145,7 +1169,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		});
 	}
 
-	//процедура изменения первого символа с нижнего регистра в высокий
+	//РїСЂРѕС†РµРґСѓСЂР° РёР·РјРµРЅРµРЅРёСЏ РїРµСЂРІРѕРіРѕ СЃРёРјРІРѕР»Р° СЃ РЅРёР¶РЅРµРіРѕ СЂРµРіРёСЃС‚СЂР° РІ РІС‹СЃРѕРєРёР№
 	public final static String asUpperCaseFirstChar(final String target) {
 		if ((target == null) || (target.length() == 0)) {
 			return target; // You could omit this check and simply live with an
@@ -1155,16 +1179,16 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				+ (target.length() > 1 ? target.substring(1) : "");
 	}
 
-	//процедура автозаполнения единицы (вторая страница)
+	//РїСЂРѕС†РµРґСѓСЂР° Р°РІС‚РѕР·Р°РїРѕР»РЅРµРЅРёСЏ РµРґРёРЅРёС†С‹ (РІС‚РѕСЂР°СЏ СЃС‚СЂР°РЅРёС†Р°)
 	private void CreateListEdin() {
 		edinCursor = db.getEdinName(DB_ETABLE,"");
 		String[] from = new String[] { E_NAME};
 		int[] to = new int[] {R.id.text2};
 		ecAdapter = new SimpleCursorAdapter(getActivity(),R.layout.eitem, edinCursor, from, to);
-		// указываем какое имя вставлять после выбора всплывающего списка. 
-		//   Если этого не будет, то в название получите имя объекта в формате java
+		// СѓРєР°Р·С‹РІР°РµРј РєР°РєРѕРµ РёРјСЏ РІСЃС‚Р°РІР»СЏС‚СЊ РїРѕСЃР»Рµ РІС‹Р±РѕСЂР° РІСЃРїР»С‹РІР°СЋС‰РµРіРѕ СЃРїРёСЃРєР°. 
+		//   Р•СЃР»Рё СЌС‚РѕРіРѕ РЅРµ Р±СѓРґРµС‚, С‚Рѕ РІ РЅР°Р·РІР°РЅРёРµ РїРѕР»СѓС‡РёС‚Рµ РёРјСЏ РѕР±СЉРµРєС‚Р° РІ С„РѕСЂРјР°С‚Рµ java
 		ecAdapter.setStringConversionColumn(edinCursor.getColumnIndexOrThrow(E_NAME));
-		// настраиваем фильтрацию (что бы всплывали подсказки)
+		// РЅР°СЃС‚СЂР°РёРІР°РµРј С„РёР»СЊС‚СЂР°С†РёСЋ (С‡С‚Рѕ Р±С‹ РІСЃРїР»С‹РІР°Р»Рё РїРѕРґСЃРєР°Р·РєРё)
 		ecAdapter.setFilterQueryProvider(new FilterQueryProvider() {
 			public Cursor runQuery(CharSequence constraint) {
 				String partialValue = null;
@@ -1177,7 +1201,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		acPE.setAdapter(ecAdapter);
 		ecAdapter.notifyDataSetChanged();
 		acPE.showDropDown();
-		// Событие возникающее при изменение вводимого текста
+		// РЎРѕР±С‹С‚РёРµ РІРѕР·РЅРёРєР°СЋС‰РµРµ РїСЂРё РёР·РјРµРЅРµРЅРёРµ РІРІРѕРґРёРјРѕРіРѕ С‚РµРєСЃС‚Р°
 		acPE.addTextChangedListener(new TextWatcher() {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 			}
@@ -1188,11 +1212,11 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				ecAdapter.getFilter().filter(s.toString());
 			}
 		});
-		// Событие при выборе элемента
+		// РЎРѕР±С‹С‚РёРµ РїСЂРё РІС‹Р±РѕСЂРµ СЌР»РµРјРµРЅС‚Р°
 		acPE.setOnItemClickListener(new OnItemClickListener(){
 			public void onItemClick(AdapterView<?> adapter, View view, int index, long id) {
 				//  Object itemPostion = (Object) adapter.getItemAtPosition(index);
-				//   Log.d(TAG, "Выбранный элемент=" + itemPostion.toString()+"\n Значение столбца _id="+id );
+				//   Log.d(TAG, "Р’С‹Р±СЂР°РЅРЅС‹Р№ СЌР»РµРјРµРЅС‚=" + itemPostion.toString()+"\n Р—РЅР°С‡РµРЅРёРµ СЃС‚РѕР»Р±С†Р° _id="+id );
 			}
 		});
 	}
@@ -1207,7 +1231,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 					public Cursor loadInBackground() {
 						spisCursor = db.getAllSpisok(DB_STABLE, null, S_NOM, S_NOM);
 						if (spisCursor.getCount() == 0) {
-							db.addNewSpisok(DB_STABLE, 1 ,"Список "+1);
+							db.addNewSpisok(DB_STABLE, 1 ,"РЎРїРёСЃРѕРє "+1);
 							spisCursor = db.getAllSpisok(DB_STABLE, null, S_NOM, S_NOM);
 						}
 						return spisCursor;
@@ -1301,7 +1325,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		return spprCursor;
 	}
 
-	//процедура создания 3тьей страницы
+	//РїСЂРѕС†РµРґСѓСЂР° СЃРѕР·РґР°РЅРёСЏ 3С‚СЊРµР№ СЃС‚СЂР°РЅРёС†С‹
 	private void GetNastr(int sns) {
 		ik=0; 	kv=0;	ei=0;	pr=0;
 		vl=0;	ek=0; nid=0;
@@ -1344,49 +1368,49 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				spisCursor2.close();
 			}
 		}
-		//Log.d(TAG, "процедура GetNastr: id="+nid+",sn="+nsn+", ik="+ik+", kv="+kv+", ei="+ei+", pr="+pr+", ek="+ek+", vl="+vl);
+		//Log.d(TAG, "РїСЂРѕС†РµРґСѓСЂР° GetNastr: id="+nid+",sn="+nsn+", ik="+ik+", kv="+kv+", ei="+ei+", pr="+pr+", ek="+ek+", vl="+vl);
 		groupNames = new ArrayList<String>();
-		groupNames.add( "Действия со списком" );
-		groupNames.add( "Справочники" );
-		groupNames.add( "Функции" );
+		groupNames.add( "Р”РµР№СЃС‚РІРёСЏ СЃРѕ СЃРїРёСЃРєРѕРј" );
+		groupNames.add( "РЎРїСЂР°РІРѕС‡РЅРёРєРё" );
+		groupNames.add( "Р¤СѓРЅРєС†РёРё" );
 
 		elems = new ArrayList<ArrayList<Elements>>();
 		elem = new ArrayList<Elements>();
 		if (ik==1)
-			elem.add( new Elements( "Использовать категории", true ) );
+			elem.add( new Elements( "РСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РєР°С‚РµРіРѕСЂРёРё", true ) );
 		else
-			elem.add( new Elements( "Использовать категории", false ) );
+			elem.add( new Elements( "РСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РєР°С‚РµРіРѕСЂРёРё", false ) );
 		if (kv==1)
-			elem.add( new Elements( "Отображать кол-во", true ) );
+			elem.add( new Elements( "РћС‚РѕР±СЂР°Р¶Р°С‚СЊ РєРѕР»-РІРѕ", true ) );
 		else
-			elem.add( new Elements( "Отображать кол-во", false ) );
+			elem.add( new Elements( "РћС‚РѕР±СЂР°Р¶Р°С‚СЊ РєРѕР»-РІРѕ", false ) );
 		if (ei==1)
-			elem.add( new Elements( "Отображать валюту", true ) );
+			elem.add( new Elements( "РћС‚РѕР±СЂР°Р¶Р°С‚СЊ РІР°Р»СЋС‚Сѓ", true ) );
 		else
-			elem.add( new Elements( "Отображать валюту", false ) );
+			elem.add( new Elements( "РћС‚РѕР±СЂР°Р¶Р°С‚СЊ РІР°Р»СЋС‚Сѓ", false ) );
 		if (pr==1)
-			elem.add( new Elements( "Отображать сумму", true ) );
+			elem.add( new Elements( "РћС‚РѕР±СЂР°Р¶Р°С‚СЊ СЃСѓРјРјСѓ", true ) );
 		else
-			elem.add( new Elements( "Отображать сумму", false ) );
+			elem.add( new Elements( "РћС‚РѕР±СЂР°Р¶Р°С‚СЊ СЃСѓРјРјСѓ", false ) );
 		elems.add( elem );
 
 		elem = new ArrayList<Elements>();
-		elem.add( new Elements( "Категории",false ) );
-		elem.add( new Elements( "Продукция",false ) );
-		elem.add( new Elements( "Единицы",false ) );
+		elem.add( new Elements( "РљР°С‚РµРіРѕСЂРёРё",false ) );
+		elem.add( new Elements( "РџСЂРѕРґСѓРєС†РёСЏ",false ) );
+		elem.add( new Elements( "Р•РґРёРЅРёС†С‹",false ) );
 		elems.add( elem );
 
 		elem = new ArrayList<Elements>();
-		elem.add( new Elements( "Валюта",false ) );
+		elem.add( new Elements( "Р’Р°Р»СЋС‚Р°",false ) );
 		if (ek==0)
-			elem.add( new Elements( "Не выключать экран",false ) );
+			elem.add( new Elements( "РќРµ РІС‹РєР»СЋС‡Р°С‚СЊ СЌРєСЂР°РЅ",false ) );
 		else
-			elem.add( new Elements( "Не выключать экран",true ) );
-		elem.add( new Elements( "О программе", false ) );
+			elem.add( new Elements( "РќРµ РІС‹РєР»СЋС‡Р°С‚СЊ СЌРєСЂР°РЅ",true ) );
+		elem.add( new Elements( "Рћ РїСЂРѕРіСЂР°РјРјРµ", false ) );
 		elems.add( elem );
 	}
 
-	//процедура нажатия на строк в listview (третья страница)
+	//РїСЂРѕС†РµРґСѓСЂР° РЅР°Р¶Р°С‚РёСЏ РЅР° СЃС‚СЂРѕРє РІ listview (С‚СЂРµС‚СЊСЏ СЃС‚СЂР°РЅРёС†Р°)
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
 								int groupPosition, int childPosition, long id) {
@@ -1394,14 +1418,14 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 	/*Log.d(TAG, "onChildClick groupPosition = " + groupPosition + 
 			  " childPosition = " + childPosition + 
 			  " id = " + id);*/
-		//PowerManager - для запрета блокировки экрана
+		//PowerManager - РґР»СЏ Р·Р°РїСЂРµС‚Р° Р±Р»РѕРєРёСЂРѕРІРєРё СЌРєСЂР°РЅР°
 		PowerManager pm = (PowerManager) getActivity().getSystemService(Context.POWER_SERVICE);
 		PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, TAG);
 		ControlSN();
 		CheckBox cb = (CheckBox)v.findViewById( R.id.chbnas );
 		switch (groupPosition) {
 			case 0:
-				/*первая группа - Действия со списком*/
+				/*РїРµСЂРІР°СЏ РіСЂСѓРїРїР° - Р”РµР№СЃС‚РІРёСЏ СЃРѕ СЃРїРёСЃРєРѕРј*/
 				if (childPosition==0)
 				{
 					if (cb.isChecked()==true)
@@ -1453,7 +1477,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				MainActivity.pager.setCurrentItem(1);
 				break;
 			case 1:
-				/*вторая группа - Справочники*/
+				/*РІС‚РѕСЂР°СЏ РіСЂСѓРїРїР° - РЎРїСЂР°РІРѕС‡РЅРёРєРё*/
 				if (childPosition==0)
 				{
 					Intent intent = new Intent(getActivity(), BaseKateg.class);
@@ -1475,7 +1499,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 				GetNastr(sn);
 				break;
 			case 2:
-				/*третья группа - Функции*/
+				/*С‚СЂРµС‚СЊСЏ РіСЂСѓРїРїР° - Р¤СѓРЅРєС†РёРё*/
 				if (childPosition==0)
 				{
 					spisCursor2 = db.getValinSpis(sn);
@@ -1543,12 +1567,12 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		return true;
 	}
 
-	//обработчик нажатия на пункт списка диалога или кнопку
+	//РѕР±СЂР°Р±РѕС‚С‡РёРє РЅР°Р¶Р°С‚РёСЏ РЅР° РїСѓРЅРєС‚ СЃРїРёСЃРєР° РґРёР°Р»РѕРіР° РёР»Рё РєРЅРѕРїРєСѓ
 	OnClickListener myClickListener = new OnClickListener() {
 		public void onClick(DialogInterface dialog, int which) {
 			ListView lv = ((AlertDialog) dialog).getListView();
 			if (which == Dialog.BUTTON_POSITIVE) {
-				// выводим в лог позицию выбранного элемента
+				// РІС‹РІРѕРґРёРј РІ Р»РѕРі РїРѕР·РёС†РёСЋ РІС‹Р±СЂР°РЅРЅРѕРіРѕ СЌР»РµРјРµРЅС‚Р°
 				ControlSN();
 				db.UpDateValInSpis("spisok",lv.getCheckedItemPosition()+1,sn);
 				getActivity().getSupportLoaderManager().getLoader(1).forceLoad();
@@ -1557,7 +1581,7 @@ public class PageFragment extends Fragment implements LoaderCallbacks<Cursor>,Ex
 		}
 	};
 
-	//процедура сворачивание(Collapse) / разворачивание(Expand) групп 
+	//РїСЂРѕС†РµРґСѓСЂР° СЃРІРѕСЂР°С‡РёРІР°РЅРёРµ(Collapse) / СЂР°Р·РІРѕСЂР°С‡РёРІР°РЅРёРµ(Expand) РіСЂСѓРїРї 
 	@Override
 	public boolean onGroupClick(ExpandableListView parent, View v,
 								int groupPosition, long id) {

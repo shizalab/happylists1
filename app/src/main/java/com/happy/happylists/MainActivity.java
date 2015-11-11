@@ -2,8 +2,13 @@ package com.happy.happylists;
 
 
 import com.happy.happylists.R;
-
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,6 +18,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 
 public class MainActivity<TitlePageIndicator> extends FragmentActivity{
 
@@ -20,6 +26,10 @@ public class MainActivity<TitlePageIndicator> extends FragmentActivity{
 
   static final int PAGE_COUNT = 3;
   int backColor;
+  Cursor cursor;
+  final int DIALOG_EXIT = 1;
+
+  DB db;
 
   public static ViewPager pager;
   PagerAdapter pagerAdapter;
@@ -31,6 +41,11 @@ public class MainActivity<TitlePageIndicator> extends FragmentActivity{
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.main);
+
+    db = new DB(this);
+    db.open();
+
+    FindCreate();
 
     //убрать иконку приложения
     getActionBar().hide();
@@ -73,6 +88,57 @@ public class MainActivity<TitlePageIndicator> extends FragmentActivity{
     });
   }
 
+  private void FindCreate(){
+    int kl = 0;
+    cursor = db.getkl();
+    if (cursor.getCount() != 0) {
+      cursor.moveToFirst();
+      do {
+        kl = Integer.parseInt(cursor.getString(cursor.getColumnIndex("klid")));
+      } while (cursor.moveToNext());
+    }
+    cursor.close();
+    if ((kl<6) && ( kl != 10))
+      db.upkl("spisok", kl+1);
+    if (kl==5)
+      showDialog(DIALOG_EXIT);
+  }
+
+
+  protected void onDestroy() {
+    super.onDestroy();
+    db.close();
+  }
+
+  protected Dialog onCreateDialog(int id) {
+    if (id == DIALOG_EXIT) {
+      AlertDialog.Builder adb = new AlertDialog.Builder(this);
+      adb.setTitle(R.string.titl);
+      adb.setMessage(R.string.mess);
+      adb.setNegativeButton(R.string.dyes, myClickListener);
+      adb.setNeutralButton(R.string.late, myClickListener);
+      adb.setPositiveButton(R.string.not, myClickListener);
+      return adb.create();
+    }
+    return super.onCreateDialog(id);
+  }
+
+  DialogInterface.OnClickListener myClickListener = new DialogInterface.OnClickListener() {
+    public void onClick(DialogInterface dialog, int which) {
+      switch (which) {
+        case Dialog.BUTTON_POSITIVE:
+          db.upkl("spisok", 10);
+          break;
+        case Dialog.BUTTON_NEUTRAL:
+          db.upkl("spisok", 0);
+          break;
+        case Dialog.BUTTON_NEGATIVE:
+          Intent intent = new Intent(Intent.ACTION_VIEW);
+          intent.setData(Uri.parse("market://details?id="+getPackageName()));
+          startActivity(intent);
+      }
+    }
+  };
   //создание фрагмента для страниц
   private class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -107,6 +173,7 @@ public class MainActivity<TitlePageIndicator> extends FragmentActivity{
     }
 
   }
+
 
 
 } 

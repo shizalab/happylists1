@@ -143,6 +143,19 @@ public class DB {
 		return database.rawQuery("select (skol*sprice) as sm from Spisok where skorz=1 and snom=(select snom from Spisok where _id ="+id+")", null);
 	}
 
+
+	public Cursor getkl() {
+		return database.rawQuery("select klid from spisok group by klid", null);
+	}
+
+	//обновить запись продукта в списке в DB_TABLE
+	public void upkl(String DB_TABLE,int klid) {
+		ContentValues cv = new ContentValues();
+		cv.put("klid", klid);
+		database.update(DB_TABLE,cv, "_id in (select _id from spisok)", null);
+	}
+
+
 	//обновить запись из DB_TABLE
 	public void UpDateKSp(String DB_TABLE,int txt,long id) {
 		ContentValues cv = new ContentValues();
